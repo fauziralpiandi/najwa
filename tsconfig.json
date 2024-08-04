@@ -30,7 +30,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/_utils/fetcher.js",
-    ".contentlayer/generated"
-, "app/components/bento/map.js"  ],
+    ".contentlayer/generated" ],
   "exclude": ["node_modules"]
 }

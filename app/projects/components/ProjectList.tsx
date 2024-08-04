@@ -17,7 +17,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
           className="col-span-1 min-w-72 snap-start transition-opacity"
         >
           <Link href={`/projects/${project.slug}`} className="space-y-4">
-            <div className="aspect-video overflow-hidden rounded-lg bg-secondary">
+            <div className="aspect-video overflow-hidden rounded-md bg-secondary">
               <Halo strength={10}>
                 <Image
                   src={project.image}

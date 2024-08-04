@@ -17,7 +17,7 @@ type PostProps = {
 export default function Post({ post, mousePosition }: PostProps) {
   const { date, slug, title, image } = post;
   const imageHeight = 150;
-  const imageWidth = 320;
+  const imageWidth = 300;
   const imageOffset = 24;
 
   return (

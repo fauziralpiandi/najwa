@@ -5,7 +5,6 @@ import Link from "@/app/components/Link";
 import Section from "@/app/components/Section";
 import Briefcases from "@/app/about/components/Briefcase";
 import Frame from "@/app/about/components/Frame";
-import Links from "@/app/about/components/Links";
 
 import hinesLogo from "public/work/hines-logo.jpeg";
 import perishipLogo from "public/work/periship-logo.jpeg";
@@ -108,7 +107,6 @@ export default function About() {
             <Briefcases items={briefcases} />
           </div>
         </Section>
-        <Links />
       </div>
     </div>
   );

@@ -1,7 +1,3 @@
-import React from 'react';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
-
 import { allBlogs } from ".contentlayer/generated";
 import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import { allProjects } from ".contentlayer/generated";
@@ -10,7 +6,7 @@ import Link from "@/app/components/Link";
 import PostList from "@/app/blog/components/PostList";
 import ProjectList from "@/app/projects/components/ProjectList";
 
-import { author } from "app/libs/Author";
+import { author } from "@/app/libs/Author";
 import Image from "next/image";
 import avatar from "public/avatar.png";
 
@@ -26,7 +22,6 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-5 md:gap-10">
       <div className="flex flex-start items-center gap-6">
-        <Zoom>
         <Image
           src={avatar}
           width={50}
@@ -35,7 +30,6 @@ export default function Home() {
           className="animate-in rounded-lg bg-secondary"
           style={{ "--index": 1 } as React.CSSProperties}
         />
-        </Zoom>
         <h1
           className="animate-in text-3xl font-semibold tracking-tight text-primary"
           style={{ "--index": 2 } as React.CSSProperties}

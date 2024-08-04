@@ -6,7 +6,6 @@ type LinkProps = {
   children: ReactNode;
   className?: string;
   underline?: boolean;
-  style?: React.CSSProperties;
 } & NextLinkProps;
 
 export default function Link(props: LinkProps) {

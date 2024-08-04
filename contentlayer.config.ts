@@ -5,7 +5,7 @@ import {
   defineDocumentType,
   makeSource,
   ComputedFields,
-} from "contentlayer/source-files";
+} from "contentlayer/source-files"; // eslint-disable-line
 import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
 

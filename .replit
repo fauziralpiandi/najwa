@@ -1,19 +1,5 @@
-run = "npm run dev"
-modules = ["nodejs-20:v9-20231020-a3526c9"]
-hidden = [".config", "package-lock.json", ".next", ".swc"]
-
-[nix]
-channel = "stable-23_05"
-
-[deployment]
-build = ["npm", "run", "build"]
-run = ["npm", "run", "start"]
-deploymentTarget = "cloudrun"
+modules = ["nodejs-20"]
 
 [[ports]]
 localPort = 3000
 externalPort = 3000
-
-[[ports]]
-localPort = 42333
-externalPort = 80
