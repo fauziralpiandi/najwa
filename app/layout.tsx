@@ -1,44 +1,49 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Fira_Sans } from "@next/font/google";
-import { Fira_Code } from "@next/font/google";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-
-import { ThemeProvider } from "@/app/components/ThemeProvider";
-import Navigation from "@/app/components/Navigation";
-
-import { site } from "app/libs/Site";
+import './global.css';
+import type { Metadata } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+import { Navbar } from './components/nav';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SandpackCSS } from './blog/[slug]/sandpack';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`${site.baseUrl}`),
-  title: site.title,
-  description: site.description,
+  metadataBase: new URL('https://najwaa.vercel.app'),
+  title: {
+    default: 'Fauzira Alpiandi',
+    template: '%s | Fauzira Alpiandi',
+  },
+  description: 'Developer, writer.',
   openGraph: {
-    title: site.title,
-    url: site.baseUrl,
-    images: [
-      {
-        url: `${site.baseUrl}/api/og?title=${site.domain}`,
-        alt: `${site.domain}`,
-      },
-    ],
+    title: 'Fauzira Alpiandi',
+    description: 'Developer, writer.',
+    url: 'https://najwaa.vercel.app',
+    siteName: 'Fauzira Alpiandi',
+    locale: 'en-US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  twitter: {
+    title: 'Fauzira Alpiandi',
+    card: 'summary_large_image',
+  },
+  verification: {
+    google: '',
+    yandex: '',
   },
 };
 
-const firaSans = Fira_Sans({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: "--font-fira-sans",
-});
-
-const firaCode = Fira_Code({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: "--font-fira-code",
-});
+const cx = (...classes) => classes.filter(Boolean).join(' ');
 
 export default function RootLayout({
   children,
@@ -47,18 +52,23 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang={site.language}
-      className={`${firaSans.variable} ${firaCode.variable} ${GeistSans.variable} ${GeistMono.variable}`}
+      lang="en"
+      className={cx(
+        'width-full m-4',
+        GeistSans.variable,
+        GeistMono.variable
+      )}
     >
-      <body className="width-full bg-contrast text-primary antialiased dark:bg-primary">
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <Navigation />
-          <div className="mx-auto max-w-[700px] px-6 pb-24 pt-16 md:px-6 md:pb-44 md:pt-20">
-            {children}
-          </div>
+      <head>
+        <SandpackCSS />
+      </head>
+      <body className="antialiased max-w-2xl flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
+        <main className="flex-auto min-w-0 flex flex-col md:px-0">
+          <Navbar />
+          {children}
           <Analytics />
           <SpeedInsights />
-        </ThemeProvider>
+        </main>
       </body>
     </html>
   );

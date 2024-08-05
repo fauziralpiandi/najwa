@@ -1,50 +1,41 @@
-import { Metadata } from "next";
-import { allBlogs } from ".contentlayer/generated";
-import PostList from "@/app/blog/components/PostList";
+import Link from 'next/link';
+import { getBlogPosts } from 'app/db/blog';
 
-export const metadata: Metadata = {
-  title: "Blog | Brian Ruiz",
-  description:
-    "I write about programming, design, and occasionally life updates!",
-  openGraph: {
-    title: "Blog | Brian Ruiz",
-    description:
-      "I write about programming, design, and occasionally life updates!",
-    type: "website",
-    url: "https://b-r.io/blog/Blog",
-    images: [{ url: "https://b-r.io/api/og?title=Blog", alt: "Blog" }],
-  },
+export const metadata = {
+  title: 'Blog',
+  description: 'Read my thoughts on software development, design, and more.',
 };
 
 export default function BlogPage() {
-  const blogs = allBlogs.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  let allBlogs = getBlogPosts();
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24">
-      <div className="flex flex-col gap-8">
-        <div>
-          <h1 className="animate-in text-3xl font-bold tracking-tight">Blog</h1>
-          <p
-            className="animate-in text-secondary"
-            style={{ "--index": 1 } as React.CSSProperties}
+    <section>
+      <h1 className="font-medium text-2xl mb-8 tracking-tighter">
+        read my blog
+      </h1>
+      {allBlogs
+        .sort((a, b) => {
+          if (
+            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
+          ) {
+            return -1;
+          }
+          return 1;
+        })
+        .map((post) => (
+          <Link
+            key={post.slug}
+            className="flex flex-col space-y-1 mb-4"
+            href={`/blog/${post.slug}`}
           >
-            {blogs.length} posts so far. Stay tuned for more!
-          </p>
-        </div>
-      </div>
-      <div
-        className="animate-in"
-        style={{ "--index": 2 } as React.CSSProperties}
-      >
-        <PostList posts={blogs} />
-      </div>
-      <div
-        className="animate-in"
-        style={{ "--index": 3 } as React.CSSProperties}
-      >
-      </div>
-    </div>
+            <div className="w-full flex flex-col">
+              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
+                {post.metadata.title}
+              </p>
+            </div>
+          </Link>
+        ))}
+    </section>
   );
 }

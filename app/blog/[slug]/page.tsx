@@ -1,126 +1,128 @@
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import Link from "@/app/components/Link";
-import { allBlogs } from ".contentlayer/generated";
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { CustomMDX } from 'app/components/mdx';
+import { getBlogPosts } from 'app/db/blog';
+import { unstable_noStore as noStore } from 'next/cache';
 
-import Avatar from "@/app/components/Avatar";
-import Tags from "@/app/components/Tags";
-import Mdx from "@/app/blog/components/MdxWrapper";
-import Me from "@/public/avatar.png";
-
-import { formatDate } from "@/app/_utils/formatDate";
-
-type Props = {
-  params: {
-    slug: string;
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const blog = allBlogs.find((blog) => blog.slug === params.slug);
-
-  if (!blog) {
-    notFound();
+export async function generateMetadata({
+  params,
+}): Promise<Metadata | undefined> {
+  let post = getBlogPosts().find((post) => post.slug === params.slug);
+  if (!post) {
+    return;
   }
 
-  const {
+  let {
     title,
-    date: publishedTime,
+    publishedAt: publishedTime,
     summary: description,
     image,
-    slug,
-  } = blog;
+  } = post.metadata;
+  let ogImage = image
+    ? `https://najwaa.vercel.app${image}`
+    : `https://najwaa.vercel.app/og?title=${title}`;
 
-  const ogImage = image
-    ? `https://b-r.io/${image}`
-    : `https://b-r.io/api/og?title=${title}`;
-
-  const metadata: Metadata = {
-    metadataBase: new URL("https://b-r.io"),
-    title: `${title} | Brian Ruiz`,
+  return {
+    title,
     description,
     openGraph: {
-      title: `${title} | Brian Ruiz`,
+      title,
       description,
-      type: "article",
+      type: 'article',
       publishedTime,
-      url: `https://b-r.io/blog/${slug}`,
-      images: [{ url: ogImage, alt: title }],
+      url: `https://najwaa.vercel.app/blog/${post.slug}`,
+      images: [
+        {
+          url: ogImage,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
     },
   };
-
-  return metadata;
 }
 
-export default async function Blog({ params }: { params: any }) {
-  const blog = allBlogs.find((blog) => blog.slug === params.slug);
+function formatDate(date: string) {
+  noStore();
+  let currentDate = new Date().getTime();
+  if (!date.includes('T')) {
+    date = `${date}T00:00:00`;
+  }
+  let targetDate = new Date(date).getTime();
+  let timeDifference = Math.abs(currentDate - targetDate);
+  let daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  if (!blog) {
+  let fullDate = new Date(date).toLocaleString('en-us', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  if (daysAgo < 1) {
+    return 'Today';
+  } else if (daysAgo < 7) {
+    return `${fullDate} (${daysAgo}d ago)`;
+  } else if (daysAgo < 30) {
+    const weeksAgo = Math.floor(daysAgo / 7);
+    return `${fullDate} (${weeksAgo}w ago)`;
+  } else if (daysAgo < 365) {
+    const monthsAgo = Math.floor(daysAgo / 30);
+    return `${fullDate} (${monthsAgo}mo ago)`;
+  } else {
+    const yearsAgo = Math.floor(daysAgo / 365);
+    return `${fullDate} (${yearsAgo}y ago)`;
+  }
+}
+
+export default function Blog({ params }) {
+  let post = getBlogPosts().find((post) => post.slug === params.slug);
+
+  if (!post) {
     notFound();
   }
 
   return (
-    <div className="flex flex-col gap-20">
-      <article>
-        <div className="flex flex-col gap-8">
-          <div className="flex max-w-xl flex-col gap-4 text-pretty">
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-primary">
-              {blog.title}
-            </h1>
-            <p className="text-secondary">{blog.summary}</p>
-          </div>
-          <div className="flex max-w-none items-center gap-4">
-            <Avatar src={Me} initials="br" size="sm" />
-            <div className="leading-tight">
-              <p>Brian Ruiz</p>
-              <p className="text-secondary">
-                <time dateTime={blog.date}>{formatDate(blog.date)}</time>
-                {blog.updatedAt
-                  ? `(Updated ${formatDate(blog.updatedAt)})`
-                  : ""}
-                {" · "}
-              </p>
-            </div>
-          </div>
-        </div>
-        {blog.image && (
-          <>
-            <div className="h-8" />
-            <Image
-              src={blog.image}
-              alt={`${blog.title} blog image`}
-              width={700}
-              height={350}
-              className="-ml-6 w-[calc(100%+48px)] max-w-none md:rounded-lg lg:-ml-20 lg:w-[calc(100%+160px)]"
-              priority
-            />
-          </>
-        )}
-        <div className="h-16" />
-        <div className="prose prose-neutral text-pretty">
-          <Mdx code={blog.body.code} />
-        </div>
-      </article>
-
-      <div className="flex flex-col gap-20">
-        <div className="flex flex-col gap-6">
-          <h2>Tags</h2>
-          <Tags tags={blog.tags} />
-        </div>
-        <div className="flex flex-col gap-6">
-          <h2>Contact</h2>
-          <p className="max-w-md text-pretty text-secondary">
-            Questions or need more details? Ping me on {" "}
-            <Link href="/discord" underline>
-              Discord,
-            </Link>{" "}
-            or any of my other social media <Link href="/links" underline>links</Link>.
+    <section>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.metadata.title,
+            datePublished: post.metadata.publishedAt,
+            dateModified: post.metadata.publishedAt,
+            description: post.metadata.summary,
+            image: post.metadata.image
+              ? `https://najwaa.vercel.app${post.metadata.image}`
+              : `https://najwaa.vercel.app/og?title=${post.metadata.title}`,
+            url: `https://najwaa.vercel.app/blog/${post.slug}`,
+            author: {
+              '@type': 'Person',
+              name: 'Fauzira Alpiandi',
+            },
+          }),
+        }}
+      />
+      <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
+        {post.metadata.title}
+      </h1>
+      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
+        <Suspense fallback={<p className="h-5" />}>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            {formatDate(post.metadata.publishedAt)}
           </p>
-        </div>
+        </Suspense>
       </div>
-    </div>
+      <article className="prose prose-quoteless prose-neutral dark:prose-invert">
+        <CustomMDX source={post.content} />
+      </article>
+    </section>
   );
 }
