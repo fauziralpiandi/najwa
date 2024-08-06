@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/mdx';
-import formatDate, { getBlogPosts } from 'app/db/utils';
+import { CustomMDX } from 'app/components/Mdx';
+import formatDate, { getBlogPosts } from 'app/blog/utils';
 
 export async function generateMetadata({
   params,

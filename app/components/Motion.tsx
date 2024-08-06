@@ -4,9 +4,7 @@ import clsx from 'clsx';
 
 type HaloProps = {
   children: ReactNode | ReactNode[];
-  /** Width/height in px */
   size?: number;
-  /** How strong the effect should be (0-100) */
   strength?: number;
   className?: string;
 };
@@ -22,7 +20,6 @@ export default function Halo({
   const [y, setY] = useState(0);
   const offset = size / 2;
 
-  // matching tailwind md breakpoint
   let isMobile = false;
   if (typeof window !== 'undefined') {
     isMobile = window.matchMedia('(max-width: 768px)').matches;

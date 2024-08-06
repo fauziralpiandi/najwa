@@ -1,10 +1,9 @@
-// components/Navbar.tsx
 'use client';
 
-import { usePathname } from 'next/navigation'; // Untuk Next.js 13+
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { FaStarOfLife, FaBriefcase, FaBook } from 'react-icons/fa'; // Ikon dari react-icons
-import Theme from './ThemeToggle'; // Sesuaikan path jika perlu
+import { FaStarOfLife, FaBriefcase, FaBook } from 'react-icons/fa';
+import Theme from './Theme';
 
 const navItems = {
   '/': { name: 'home', icon: <FaStarOfLife /> },
@@ -13,7 +12,7 @@ const navItems = {
 };
 
 export function Navbar() {
-  const pathname = usePathname(); // Mendapatkan rute saat ini
+  const pathname = usePathname();
 
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
