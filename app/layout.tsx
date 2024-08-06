@@ -8,7 +8,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SandpackCSS } from './blog/[slug]/sandpack';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://najwaa.vercel.app'),
+  metadataBase: new URL('https://zira.my.id'),
   title: {
     default: 'Fauzira Alpiandi',
     template: '%s | Fauzira Alpiandi',
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Fauzira Alpiandi',
     description: 'Developer, writer.',
-    url: 'https://najwaa.vercel.app',
+    url: 'https://zira.my.id',
     siteName: 'Fauzira Alpiandi',
-    locale: 'en-US',
+    locale: 'id-ID',
     type: 'website',
   },
   robots: {
@@ -39,7 +39,6 @@ export const metadata: Metadata = {
   },
   verification: {
     google: '',
-    yandex: '',
   },
 };
 
@@ -52,12 +51,8 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      className={cx(
-        'width-full m-4',
-        GeistSans.variable,
-        GeistMono.variable
-      )}
+      lang="id-ID"
+      className={cx('width-full m-4', GeistSans.variable, GeistMono.variable)}
     >
       <head>
         <SandpackCSS />

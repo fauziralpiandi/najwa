@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getBlogPosts } from 'app/db/blog';
+import formatDate, { getBlogPosts } from 'app/db/utils';
 
 export const metadata = {
   title: 'Blog',
@@ -32,6 +32,9 @@ export default function BlogPage() {
             <div className="w-full flex flex-col">
               <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
                 {post.metadata.title}
+              </p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                {formatDate(post.metadata.publishedAt, 'absolute')}
               </p>
             </div>
           </Link>

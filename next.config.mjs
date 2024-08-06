@@ -1,9 +1,4 @@
 const nextConfig = {
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
   transpilePackages: ['next-mdx-remote'],
   headers() {
     return [
