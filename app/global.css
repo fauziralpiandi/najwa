@@ -51,7 +51,7 @@ pre {
 }
 
 .animate-in {
-  animation-delay: calc(var(--index) * 300ms);
+  animation-delay: calc(var(--index) * 150ms);
 }
 
 .prose .anchor {

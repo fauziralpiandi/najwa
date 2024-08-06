@@ -58,3 +58,59 @@ function getMDXData(dir) {
 export function getBlogPosts() {
   return getMDXData(path.join(process.cwd(), 'content'));
 }
+
+export const formatDate = (
+  date: string,
+  type: 'relative' | 'absolute' = 'relative',
+) => {
+  let currentDate = new Date();
+  let targetDate = new Date(date);
+
+  let timeDifference = currentDate.getTime() - targetDate.getTime();
+
+  let minutesAgo = Math.floor(timeDifference / (1000 * 60));
+  let hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+  let daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  let weeksAgo = Math.floor(daysAgo / 7);
+  let monthsAgo = Math.floor(daysAgo / 30);
+  let yearsAgo = Math.floor(daysAgo / 365);
+
+  let timeString = targetDate.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Asia/Jakarta',
+  });
+  let fullDate = targetDate.toLocaleString('id-ID', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'Asia/Jakarta',
+  });
+
+  if (type === 'absolute') {
+    return targetDate.toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'Asia/Jakarta',
+    });
+  }
+
+  if (minutesAgo < 1) {
+    return 'Baru saja';
+  } else if (minutesAgo < 60) {
+    return `${minutesAgo} menit yang lalu (${timeString})`;
+  } else if (hoursAgo < 24) {
+    return `${hoursAgo} jam yang lalu (${timeString})`;
+  } else if (daysAgo < 7) {
+    return `${daysAgo} hari yang lalu (${fullDate})`;
+  } else if (weeksAgo < 4) {
+    return `${weeksAgo} minggu yang lalu (${fullDate})`;
+  } else if (monthsAgo < 12) {
+    return `${monthsAgo} bulan yang lalu (${fullDate})`;
+  } else {
+    return `${yearsAgo} tahun yang lalu (${fullDate})`;
+  }
+};
+
+export default formatDate;
