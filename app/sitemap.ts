@@ -1,4 +1,4 @@
-import { getBlogPosts } from 'app/db/blog';
+import { getBlogPosts } from 'app/blog/utils';
 
 export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
@@ -6,7 +6,7 @@ export default async function sitemap() {
     lastModified: post.metadata.publishedAt,
   }));
 
-  let routes = ['', '/blog', '/uses', '/work'].map((route) => ({
+  let routes = ['', '/blog', '/startki', '/work'].map((route) => ({
     url: `https://najwaa.vercel.app${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));

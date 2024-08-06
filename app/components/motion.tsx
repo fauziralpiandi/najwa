@@ -2,27 +2,16 @@ import React, { ReactNode, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
-type HaloProps = {
+type AnimasiProps = {
   children: ReactNode | ReactNode[];
-  /** Width/height in px */
-  size?: number;
-  /** How strong the effect should be (0-100) */
-  strength?: number;
   className?: string;
 };
 
-export default function Halo({
-  children,
-  size = 600,
-  strength = 10,
-  className,
-}: HaloProps) {
+export default function Animasi({ children, className }: AnimasiProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
-  const offset = size / 2;
 
-  // matching tailwind md breakpoint
   let isMobile = false;
   if (typeof window !== 'undefined') {
     isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -46,18 +35,18 @@ export default function Halo({
       <motion.div
         style={
           {
-            '--x': `${x - offset}px`,
-            '--y': `${y - offset}px`,
-            width: size,
-            height: size,
+            width: '100px',
+            height: '100px',
             background:
-              'radial-gradient(#FFFFFF 0%, rgba(188, 255, 219, 0) 60%)',
+              'radial-gradient(#FFFFFF 0%, rgba(188, 255, 219, 0) 50%)',
+            translateX: `${x}px`,
+            translateY: `${y}px`,
           } as React.CSSProperties
         }
-        className={`pointer-events-none absolute inset-0 z-50 translate-x-[var(--x)] translate-y-[var(--y)] opacity-0 transition-opacity`}
+        className="pointer-events-none absolute inset-0 z-50 opacity-0 transition-opacity"
         variants={{
           hover: {
-            opacity: isMobile ? 0 : strength / 100,
+            opacity: isMobile ? 0 : 0.5,
           },
         }}
       />

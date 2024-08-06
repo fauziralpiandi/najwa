@@ -6,8 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "2.12.0",
-    "@next/font": "^14.2.5",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
@@ -18,7 +17,6 @@
     "dotenv": "^16.4.2",
     "framer-motion": "^11.3.21",
     "geist": "^1.3.1",
-    "medium-zoom": "^1.1.0",
     "next": "^14.0.0",
     "next-mdx-remote": "^4.4.1",
     "next-themes": "^0.3.0",

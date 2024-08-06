@@ -6,12 +6,7 @@ export const runtime = 'edge';
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const postTitle = searchParams.get('title') || 'Default Title'; // Handle missing title
-  const fontUrl = new URL('../../public/fonts/kaisei-tokumin-bold.ttf', import.meta.url);
-
-  // Fetch the font
-  const fontResponse = await fetch(fontUrl);
-  const fontData = await fontResponse.arrayBuffer();
-
+  
   return new ImageResponse(
     (
       <div
@@ -31,7 +26,6 @@ export async function GET(req: NextRequest) {
             marginRight: 190,
             display: 'flex',
             fontSize: 130,
-            fontFamily: 'Kaisei Tokumin',
             letterSpacing: '-0.05em',
             fontStyle: 'normal',
             color: 'white',
@@ -46,13 +40,6 @@ export async function GET(req: NextRequest) {
     {
       width: 1920,
       height: 1080,
-      fonts: [
-        {
-          name: 'Kaisei Tokumin',
-          data: fontData,
-          style: 'normal',
-        },
-      ],
     }
   );
 }
