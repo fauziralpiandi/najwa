@@ -5,7 +5,7 @@ export default function robots() {
         userAgent: '*',
       },
     ],
-    sitemap: 'https://najwaa.vercel.app/sitemap.xml',
-    host: 'https://najwaa.vercel.app',
+    sitemap: 'https://fauziralpiandi.vercel.app/sitemap.xml',
+    host: 'https://fauziralpiandi.vercel.app',
   };
 }

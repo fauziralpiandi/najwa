@@ -7,17 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#E0E0E0',
-        'background-dark': '#0C0C0C',
-        text: '#0C0C0C',
-        'text-dark': '#E0E0E0',
-        selection: '#D1D1D1',
-        'selection-dark': '#333333',
+        background: '#eee',
+        'background-dark': '#111',
+        text: '#111',
+        'text-dark': '#eee',
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
         mono: ['var(--font-geist-mono)'],
-        code: ['var(--font-fira-code)'],
       },
       typography: {
         quoteless: {
@@ -38,8 +35,8 @@ export default {
         },
       },
       animation: {
-        in: 'in .5s both',
-        'in-reverse': 'in-reverse .5s both',
+        in: 'in .75s both',
+        'in-reverse': 'in-reverse .75s both',
       },
     },
   },

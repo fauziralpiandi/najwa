@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/Mdx';
+import { CustomMDX } from 'app/components/mdx';
 import formatDate, { getBlogPosts } from 'app/blog/utils';
 
 export async function generateMetadata({
@@ -19,8 +19,8 @@ export async function generateMetadata({
     image,
   } = post.metadata;
   let ogImage = image
-    ? `https://zira.my.id${image}`
-    : `https://zira.my.id/og?title=${title}`;
+    ? `https://fauziralpiandi.vercel.app${image}`
+    : `https://fauziralpiandi.vercel.app/og?title=${title}`;
 
   return {
     title,
@@ -30,7 +30,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `https://zira.my.id/blog/${post.slug}`,
+      url: `https://fauziralpiandi.vercel.app/blog/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -67,9 +67,9 @@ export default function Blog({ params }) {
             dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
             image: post.metadata.image
-              ? `https://zira.my.id${post.metadata.image}`
-              : `https://zira.my.id/og?title=${post.metadata.title}`,
-            url: `https://zira.my.id/blog/${post.slug}`,
+              ? `https://fauziralpiandi.vercel.app${post.metadata.image}`
+              : `https://fauziralpiandi.vercel.app/og?title=${post.metadata.title}`,
+            url: `https://fauziralpiandi.vercel.app/blog/${post.slug}`,
             author: {
               '@type': 'Person',
               name: 'Fauzira Alpiandi',

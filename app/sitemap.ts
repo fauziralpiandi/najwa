@@ -2,12 +2,12 @@ import { getBlogPosts } from 'app/blog/utils';
 
 export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
-    url: `https://zira.my.id/blog/${post.slug}`,
+    url: `https://fauziralpiandi.vercel.app/blog/${post.slug}`,
     lastModified: post.metadata.publishedAt,
   }));
 
-  let routes = ['', '/blog', '/uses', '/work'].map((route) => ({
-    url: `https://zira.my.id${route}`,
+  let routes = ['', '/blog', '/startki', '/work'].map((route) => ({
+    url: `https://fauziralpiandi.vercel.app${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));
 

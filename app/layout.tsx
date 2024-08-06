@@ -2,12 +2,13 @@ import './global.css';
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import { Navbar } from './components/Nav';
+import { Navbar } from './components/nav';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Footer from './components/footer';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zira.my.id'),
+  metadataBase: new URL('https://fauziralpiandi.vercel.app'),
   title: {
     default: 'Fauzira Alpiandi',
     template: '%s | Fauzira Alpiandi',
@@ -16,9 +17,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Fauzira Alpiandi',
     description: 'Developer, writer.',
-    url: 'https://zira.my.id',
+    url: 'https://fauziralpiandi.vercel.app',
     siteName: 'Fauzira Alpiandi',
-    locale: 'id-ID',
+    locale: 'en-US',
     type: 'website',
   },
   robots: {
@@ -38,10 +39,11 @@ export const metadata: Metadata = {
   },
   verification: {
     google: '',
+    yandex: '',
   },
 };
 
-const cx = (...classes) => classes.filter(Boolean).join(' ');
+const cx = (...classes: string[]) => classes.filter(Boolean).join(' ');
 
 export default function RootLayout({
   children,
@@ -50,15 +52,19 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="id-ID"
-      className={cx('width-full m-4', GeistSans.variable, GeistMono.variable)}
+      lang="en"
+      className={cx('dark text-theme-text bg-theme-background', GeistSans.variable, GeistMono.variable)}
     >
-      <body className="antialiased max-w-2xl flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 flex flex-col md:px-0">
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
+      <body className="mx-auto max-w-[768px] m-12 px-8 antialiased">
+        <main>
           <Navbar />
           {children}
           <Analytics />
           <SpeedInsights />
+          <Footer />
         </main>
       </body>
     </html>
