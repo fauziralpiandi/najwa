@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { FaRocket } from 'react-icons/fa';
 
 export const metadata: Metadata = {
-  title: 'Work',
+  title: 'Exp',
   description: 'A summary of my work and contributions.',
 };
 
@@ -13,11 +14,11 @@ async function Stars() {
   return `${count}k stars`;
 }
 
-export default function WorkPage() {
+export default function ExpPage() {
   return (
     <section>
-      <h1 className="font-medium text-2xl mb-8 tracking-tighter">
-        my work
+      <h1 className="flex flex-row items-center gap-2 font-medium text-2xl mb-8 tracking-tighter">
+        <FaRocket /> the greatest experience
       </h1>
       <div className="prose prose-neutral dark:prose-invert">
         <p>

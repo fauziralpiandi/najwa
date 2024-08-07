@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import formatDate, { getBlogPosts } from 'app/blog/utils';
+import { site } from 'libs/Site';
 
 export async function generateMetadata({
   params,
@@ -19,8 +20,8 @@ export async function generateMetadata({
     image,
   } = post.metadata;
   let ogImage = image
-    ? `https://fauziralpiandi.vercel.app${image}`
-    : `https://fauziralpiandi.vercel.app/og?title=${title}`;
+    ? `${site.baseUrl}${image}`
+    : `${site.baseUrl}/og?title=${title}`;
 
   return {
     title,
@@ -30,7 +31,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `https://fauziralpiandi.vercel.app/blog/${post.slug}`,
+      url: `${site.baseUrl}/blog/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -67,17 +68,17 @@ export default function Blog({ params }) {
             dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
             image: post.metadata.image
-              ? `https://fauziralpiandi.vercel.app${post.metadata.image}`
-              : `https://fauziralpiandi.vercel.app/og?title=${post.metadata.title}`,
-            url: `https://fauziralpiandi.vercel.app/blog/${post.slug}`,
+              ? `${site.baseUrl}${post.metadata.image}`
+              : `${site.baseUrl}/og?title=${post.metadata.title}`,
+            url: `${site.baseUrl}/blog/${post.slug}`,
             author: {
               '@type': 'Person',
-              name: 'Fauzira Alpiandi',
+              name: site.title,
             },
           }),
         }}
       />
-      <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
+      <h1 className="title font-semibold text-3xl tracking-tighter max-w-[650px]">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
@@ -87,7 +88,7 @@ export default function Blog({ params }) {
           </p>
         </Suspense>
       </div>
-      <article className="prose prose-quoteless prose-neutral dark:prose-invert">
+      <article className="text-base prose prose-quoteless prose-neutral dark:prose-invert">
         <CustomMDX source={post.content} />
       </article>
     </section>

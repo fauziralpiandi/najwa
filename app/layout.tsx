@@ -7,19 +7,21 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from './components/footer';
 
+import { site, verify } from 'libs/Site';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fauziralpiandi.vercel.app'),
+  metadataBase: new URL(`${site.baseUrl}`),
   title: {
-    default: 'Fauzira Alpiandi',
-    template: '%s | Fauzira Alpiandi',
+    default: site.title,
+    template: `%s | ${site.title}`,
   },
-  description: 'Developer, writer.',
+  description: site.description,
   openGraph: {
-    title: 'Fauzira Alpiandi',
-    description: 'Developer, writer.',
-    url: 'https://fauziralpiandi.vercel.app',
-    siteName: 'Fauzira Alpiandi',
-    locale: 'en-US',
+    title: site.title,
+    description: site.description,
+    url: site.baseUrl,
+    siteName: site.title,
+    locale: site.locale,
     type: 'website',
   },
   robots: {
@@ -34,12 +36,11 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Fauzira Alpiandi',
+    title: site.title,
     card: 'summary_large_image',
   },
   verification: {
-    google: '',
-    yandex: '',
+    google: verify.google,
   },
 };
 
@@ -52,16 +53,20 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      className={cx('dark text-theme-text bg-theme-background', GeistSans.variable, GeistMono.variable)}
+      lang={site.locale}
+      className={cx(
+        'dark text-theme-text bg-theme-background',
+        GeistSans.variable,
+        GeistMono.variable,
+      )}
     >
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-      <body className="mx-auto max-w-[768px] m-12 px-8 antialiased">
+      <body className="mx-auto max-w-[700px] flex-col m-12 px-8 antialiased">
         <main>
           <Navbar />
-          {children}
+          <div className="flex-grow">{children}</div>
           <Analytics />
           <SpeedInsights />
           <Footer />

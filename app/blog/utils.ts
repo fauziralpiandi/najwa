@@ -8,10 +8,18 @@ type Metadata = {
   image?: string;
 };
 
-function parseFrontmatter(fileContent: string) {
+function parseFrontmatter(fileContent: string): {
+  metadata: Metadata;
+  content: string;
+} {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
-  let frontMatterBlock = match![1];
+
+  if (!match) {
+    throw new Error('Frontmatter not found');
+  }
+
+  let frontMatterBlock = match[1];
   let content = fileContent.replace(frontmatterRegex, '').trim();
   let frontMatterLines = frontMatterBlock.trim().split('\n');
   let metadata: Partial<Metadata> = {};
@@ -19,28 +27,36 @@ function parseFrontmatter(fileContent: string) {
   frontMatterLines.forEach((line) => {
     let [key, ...valueArr] = line.split(': ');
     let value = valueArr.join(': ').trim();
-    value = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
+    value = value.replace(/^['"](.*)['"]$/, '$1');
     metadata[key.trim() as keyof Metadata] = value;
   });
 
   return { metadata: metadata as Metadata, content };
 }
 
-function getMDXFiles(dir) {
+function getMDXFiles(dir: string): string[] {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx');
 }
 
-function readMDXFile(filePath) {
+function readMDXFile(filePath: string): {
+  metadata: Metadata;
+  content: string;
+} {
   let rawContent = fs.readFileSync(filePath, 'utf-8');
   return parseFrontmatter(rawContent);
 }
 
-function extractTweetIds(content) {
+function extractTweetIds(content: string): string[] {
   let tweetMatches = content.match(/<StaticTweet\sid="[0-9]+"\s\/>/g);
-  return tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)[0]) || [];
+  return tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)?.[0] || '') || [];
 }
 
-function getMDXData(dir) {
+function getMDXData(dir: string): Array<{
+  metadata: Metadata;
+  slug: string;
+  tweetIds: string[];
+  content: string;
+}> {
   let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file));
@@ -55,7 +71,12 @@ function getMDXData(dir) {
   });
 }
 
-export function getBlogPosts() {
+export function getBlogPosts(): Array<{
+  metadata: Metadata;
+  slug: string;
+  tweetIds: string[];
+  content: string;
+}> {
   return getMDXData(path.join(process.cwd(), 'content'));
 }
 
@@ -102,6 +123,8 @@ export const formatDate = (
     return `${minutesAgo} menit yang lalu (${timeString})`;
   } else if (hoursAgo < 24) {
     return `${hoursAgo} jam yang lalu (${timeString})`;
+  } else if (hoursAgo < 48) {
+    return `Kemarin (${timeString})`;
   } else if (daysAgo < 7) {
     return `${daysAgo} hari yang lalu (${fullDate})`;
   } else if (weeksAgo < 4) {

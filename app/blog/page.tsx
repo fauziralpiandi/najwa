@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import formatDate, { getBlogPosts } from 'app/blog/utils';
+import { FaBookOpen } from 'react-icons/fa';
 
 export const metadata = {
   title: 'Blog',
@@ -11,8 +12,8 @@ export default function BlogPage() {
 
   return (
     <section>
-      <h1 className="font-medium text-2xl mb-8 tracking-tighter">
-        read my blog
+      <h1 className="animate-in flex flex-row items-center gap-2 font-medium text-2xl mb-8 tracking-tighter" style={{ '--index': 1 } as React.CSSProperties}>
+        <FaBookOpen /> get something today!
       </h1>
       {allBlogs
         .sort((a, b) => {
@@ -26,7 +27,8 @@ export default function BlogPage() {
         .map((post) => (
           <Link
             key={post.slug}
-            className="flex flex-col space-y-1 mb-4"
+            className="animate-in flex flex-col space-y-1 mb-4"
+            style={{ '--index': 2 } as React.CSSProperties}
             href={`/blog/${post.slug}`}
           >
             <div className="w-full flex flex-col">

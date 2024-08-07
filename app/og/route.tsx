@@ -1,11 +1,10 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
-
-export const runtime = 'edge';
+import { site } from 'libs/Site';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const postTitle = searchParams.get('title') || 'Default Title'; // Handle missing title
+  const postTitle = searchParams.get('title') || site.title;
   
   return new ImageResponse(
     (
@@ -17,7 +16,7 @@ export async function GET(req: NextRequest) {
           flexDirection: 'column',
           alignItems: 'flex-start',
           justifyContent: 'center',
-          backgroundImage: 'url(https://fauziralpiandi.vercel.app/og-bg.png)',
+          backgroundImage: `url('${site.baseUrl}/og-bg.png')`,
         }}
       >
         <div

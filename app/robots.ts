@@ -1,3 +1,5 @@
+import { site } from 'libs/Site';
+
 export default function robots() {
   return {
     rules: [
@@ -5,7 +7,7 @@ export default function robots() {
         userAgent: '*',
       },
     ],
-    sitemap: 'https://fauziralpiandi.vercel.app/sitemap.xml',
-    host: 'https://fauziralpiandi.vercel.app',
+    sitemap: `${site.baseUrl}/sitemap.xml`,
+    host: site.baseUrl,
   };
 }
