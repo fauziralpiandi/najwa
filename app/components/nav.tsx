@@ -1,45 +1,35 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { FaStarOfLife } from 'react-icons/fa';
-import Theme from './ThemeToggle';
-import { ReactNode } from 'react';
 
-type NavItem = {
-  name: string;
-  icon?: ReactNode;
-};
-
-const navItems: Record<string, NavItem> = {
-  '/': { name: 'Fauzira Alpiandi', icon: <FaStarOfLife /> },
-  //'/blog': { name: '/ Blog' },
-  //'/exp': { name: '/ Exp' },
-  //'/startkit': { name: '/ Startkit' },
+const navItems = {
+  '/': {
+    name: 'home',
+  },
+  '/blog': {
+    name: 'blog',
+  },
 };
 
 export function Navbar() {
-  const pathname = usePathname();
-
   return (
-    <aside className="mb-16">
+    <aside className="-ml-[8px] mb-16 tracking-tight">
       <div className="lg:sticky lg:top-20">
-        <nav className="flex flex-rows item-start justify-between" id="nav">
-          <div className="flex flex-rows space-x-1 font-medium">
-            {Object.entries(navItems).map(([path, { name, icon }]) => (
-              <Link
-                key={path}
-                href={path}
-                className={`nav-link flex items-center ${
-                  pathname === path ? 'active' : ''
-                }`}
-              >
-                {path === '/' && icon && <span className="mr-2 items-center">{icon}</span>}
-                {name}
-              </Link>
-            ))}
+        <nav
+          className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
+          id="nav"
+        >
+          <div className="flex flex-row space-x-0 pr-10">
+            {Object.entries(navItems).map(([path, { name }]) => {
+              return (
+                <Link
+                  key={path}
+                  href={path}
+                  className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2"
+                >
+                  {name}
+                </Link>
+              );
+            })}
           </div>
-          <Theme />
         </nav>
       </div>
     </aside>

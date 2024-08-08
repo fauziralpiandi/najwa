@@ -5,23 +5,21 @@ import { GeistMono } from 'geist/font/mono';
 import { Navbar } from './components/nav';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import Footer from './components/footer';
-
-import { site, verify } from 'libs/Site';
+import { SandpackCSS } from './blog/[slug]/sandpack';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`${site.baseUrl}`),
+  metadataBase: new URL('https://leerob.io'),
   title: {
-    default: site.title,
-    template: `%s | ${site.title}`,
+    default: 'Lee Robinson',
+    template: '%s | Lee Robinson',
   },
-  description: site.description,
+  description: 'Developer, writer, and creator.',
   openGraph: {
-    title: site.title,
-    description: site.description,
-    url: site.baseUrl,
-    siteName: site.title,
-    locale: site.locale,
+    title: 'Lee Robinson',
+    description: 'Developer, writer, and creator.',
+    url: 'https://leerob.io',
+    siteName: 'Lee Robinson',
+    locale: 'en_US',
     type: 'website',
   },
   robots: {
@@ -36,15 +34,16 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: site.title,
+    title: 'Lee Robinson',
     card: 'summary_large_image',
   },
   verification: {
-    google: verify.google,
+    google: 'eZSdmzAXlLkKhNJzfgwDqWORghxnJ8qR9_CHdAh5-xw',
+    yandex: '14d2e73487fa6c71',
   },
 };
 
-const cx = (...classes: string[]) => classes.filter(Boolean).join(' ');
+const cx = (...classes) => classes.filter(Boolean).join(' ');
 
 export default function RootLayout({
   children,
@@ -53,23 +52,22 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang={site.locale}
+      lang="en"
       className={cx(
-        'dark text-theme-text bg-theme-background',
+        'text-black bg-white dark:text-white dark:bg-[#111010]',
         GeistSans.variable,
-        GeistMono.variable,
+        GeistMono.variable
       )}
     >
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <SandpackCSS />
       </head>
-      <body className="mx-auto max-w-[700px] flex-col m-12 px-8 antialiased">
-        <main>
+      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
+        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Navbar />
-          <div className="flex-grow">{children}</div>
+          {children}
           <Analytics />
           <SpeedInsights />
-          <Footer />
         </main>
       </body>
     </html>

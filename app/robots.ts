@@ -1,5 +1,3 @@
-import { site } from 'libs/Site';
-
 export default function robots() {
   return {
     rules: [
@@ -7,7 +5,7 @@ export default function robots() {
         userAgent: '*',
       },
     ],
-    sitemap: `${site.baseUrl}/sitemap.xml`,
-    host: site.baseUrl,
+    sitemap: 'https://leerob.io/sitemap.xml',
+    host: 'https://leerob.io',
   };
 }
