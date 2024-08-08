@@ -47,6 +47,14 @@ export async function generateMetadata({
   };
 }
 
+export async function generateStaticParams() {
+  const posts = getBlogPosts();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
 export default function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
 
