@@ -2,10 +2,12 @@ import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import { site } from 'libs/Site';
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const postTitle = searchParams.get('title') || site.title;
-  
+
   return new ImageResponse(
     (
       <div
