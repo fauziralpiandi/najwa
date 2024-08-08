@@ -1,14 +1,12 @@
 import postgres from 'postgres';
 
 export const sql = postgres(process.env.POSTGRES_URL, {
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: 'allow',
 });
 
 const nextConfig = {
   experimental: {
-    ppr: false,
+    ppr: true,
   },
   transpilePackages: ['next-mdx-remote'],
   headers() {
@@ -55,4 +53,12 @@ const securityHeaders = [
   },
   {
     key: 'Strict-Transport-Security',
-    value: 'max-age
+    value: 'max-age=31536000; includeSubDomains; preload',
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()',
+  },
+];
+
+export default nextConfig;
