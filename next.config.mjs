@@ -55,12 +55,4 @@ const securityHeaders = [
   },
   {
     key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains; preload',
-  },
-  {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
-  },
-];
-
-export default nextConfig;
+    value: 'max-age
