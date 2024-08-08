@@ -5,6 +5,22 @@ export const sql = postgres(process.env.POSTGRES_URL, {
 });
 
 const nextConfig = {
+  async redirects() {
+    if (!process.env.POSTGRES_URL) {
+      return [];
+    }
+
+    let redirects = await sql`
+      SELECT source, destination, permanent
+      FROM redirects;
+    `;
+
+    return redirects.map(({ source, destination, permanent }) => ({
+      source,
+      destination,
+      permanent: !!permanent,
+    }));
+  },
   transpilePackages: ['next-mdx-remote'],
   headers() {
     return [
