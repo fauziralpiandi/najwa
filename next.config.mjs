@@ -5,6 +5,15 @@ export const sql = postgres(process.env.POSTGRES_URL, {
 });
 
 const nextConfig = {
+  experimental: {
+    ppr: false,
+  },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+  transpilePackages: ['next-mdx-remote'],
   async redirects() {
     if (!process.env.POSTGRES_URL) {
       return [];
@@ -21,7 +30,6 @@ const nextConfig = {
       permanent: !!permanent,
     }));
   },
-  transpilePackages: ['next-mdx-remote'],
   headers() {
     return [
       {
